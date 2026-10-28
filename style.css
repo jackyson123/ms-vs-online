@@ -1,0 +1,346 @@
+/* ================= 基礎 ================= */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --bg: #05070d;
+  --panel: #0c1220;
+  --line: #1d2b45;
+  --ink: #e8f0ff;
+  --dim: #8ea2c4;
+  --accent: #43e0ff;
+  --accent2: #ffcf3f;
+  --danger: #ff5a6a;
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, -apple-system, sans-serif;
+  overscroll-behavior: none;
+}
+
+body { overflow: hidden; touch-action: manipulation; }
+
+#app { position: fixed; inset: 0; }
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+}
+.screen.active { display: flex; }
+
+.hidden { display: none !important; }
+
+/* ================= 按鈕 ================= */
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, #16223a, #0d1526);
+  color: var(--ink);
+  padding: 14px 26px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  cursor: pointer;
+  transition: transform .12s, box-shadow .12s, filter .12s;
+}
+.btn:active { transform: translateY(2px) scale(.99); }
+.btn.primary {
+  background: linear-gradient(180deg, #2ad1ff, #1183d6);
+  border-color: #6ff0ff;
+  color: #04121c;
+  box-shadow: 0 6px 22px rgba(45, 200, 255, .35);
+}
+.btn.primary:disabled { filter: grayscale(.8) brightness(.6); box-shadow: none; cursor: not-allowed; }
+.btn.ghost { background: rgba(255,255,255,.05); }
+
+.icon-btn {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(6, 10, 20, .6);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+
+/* ================= 選機畫面 ================= */
+#screen-select {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: calc(14px + var(--sat)) 16px calc(18px + var(--sab));
+  gap: 14px;
+  background:
+    radial-gradient(1100px 520px at 78% -8%, rgba(67, 224, 255, .18), transparent 62%),
+    radial-gradient(760px 460px at 8% 108%, rgba(255, 90, 106, .14), transparent 60%),
+    linear-gradient(180deg, #070b14 0%, #05070d 60%, #070a12 100%);
+}
+
+.brand { display: flex; align-items: center; gap: 14px; }
+.logo {
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: .04em;
+  padding: 10px 12px;
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  color: var(--accent);
+  box-shadow: 0 0 18px rgba(67, 224, 255, .35), inset 0 0 16px rgba(67, 224, 255, .15);
+  line-height: 1;
+}
+.logo span { color: var(--accent2); margin-left: 2px; }
+.titles h1 {
+  margin: 0;
+  font-size: clamp(20px, 4.6vw, 30px);
+  letter-spacing: .06em;
+}
+.titles h1 em {
+  font-style: normal;
+  font-size: .58em;
+  color: var(--accent2);
+  letter-spacing: .22em;
+  margin-left: 6px;
+}
+.sub { margin: 4px 0 0; color: var(--dim); font-size: 13px; letter-spacing: .05em; }
+
+.unit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  position: relative;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(20, 30, 50, .9), rgba(9, 13, 24, .95));
+  border-radius: 14px;
+  padding: 10px 10px 12px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform .14s, border-color .14s, box-shadow .14s;
+}
+.card::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px transparent;
+  transition: box-shadow .14s;
+  pointer-events: none;
+}
+.card canvas {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: block;
+  border-radius: 10px;
+  background:
+    radial-gradient(60% 50% at 50% 34%, rgba(70, 130, 200, .35), transparent 70%),
+    linear-gradient(180deg, #0d1728, #070b13);
+}
+.card h3 { margin: 8px 0 2px; font-size: 16px; letter-spacing: .04em; }
+.card .en { color: var(--dim); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
+.card .tag {
+  position: absolute; top: 16px; left: 16px;
+  font-size: 10px; letter-spacing: .1em;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(4, 8, 16, .72);
+  border: 1px solid rgba(255,255,255,.22);
+  color: var(--accent2);
+}
+.card .desc { margin: 6px 0 8px; font-size: 12px; color: var(--dim); line-height: 1.5; min-height: 3em; }
+
+.stats { display: grid; gap: 4px; }
+.stat { display: grid; grid-template-columns: 34px 1fr; align-items: center; gap: 6px; font-size: 10px; color: var(--dim); letter-spacing: .08em; }
+.stat i { display: block; height: 5px; border-radius: 999px; background: rgba(255,255,255,.1); overflow: hidden; }
+.stat i b { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+
+.card .sp {
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: .05em;
+  color: var(--accent2);
+  border-top: 1px dashed rgba(255,255,255,.14);
+  padding-top: 7px;
+}
+.card.selected {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.5), 0 0 0 1px var(--accent), 0 0 26px rgba(67, 224, 255, .3);
+}
+.card.selected::after { box-shadow: inset 0 0 0 1px var(--accent); }
+
+.select-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4px;
+}
+.enemy-pick { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--dim); letter-spacing: .08em; }
+.enemy-pick select {
+  background: #0e1626;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+.hint { margin: 0; color: #63759a; font-size: 12px; line-height: 1.7; letter-spacing: .03em; }
+
+/* ================= 戰鬥畫面 ================= */
+#screen-battle { background: #04060c; overflow: hidden; }
+#game {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+.battle-top {
+  position: absolute;
+  top: calc(10px + var(--sat));
+  right: 10px;
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+
+/* ---- 觸控 ---- */
+.touch-ui { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+
+.tbtn {
+  position: absolute;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  border: 2px solid rgba(160, 210, 255, .45);
+  background: radial-gradient(120% 120% at 30% 25%, rgba(50, 90, 150, .55), rgba(6, 12, 24, .62));
+  color: #dff2ff;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: .02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.4);
+}
+.tbtn:active, .tbtn.on {
+  background: radial-gradient(120% 120% at 30% 25%, rgba(90, 220, 255, .8), rgba(16, 90, 150, .8));
+  border-color: #9ff2ff;
+  color: #04121c;
+  transform: scale(.94);
+}
+
+/* 左側虛擬搖桿（手指落點為中心，動態定位） */
+.joy {
+  position: absolute;
+  left: -200px; top: -200px;
+  width: 132px; height: 132px;
+  border-radius: 50%;
+  border: 2px solid rgba(140, 210, 255, .4);
+  background: radial-gradient(circle at 50% 50%, rgba(30, 70, 120, .18), rgba(6, 12, 24, .3));
+  opacity: 0;
+  transition: opacity .12s;
+  pointer-events: none;
+}
+.joy.on { opacity: 1; }
+.joy i {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 54px; height: 54px;
+  margin: -27px 0 0 -27px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, rgba(150, 235, 255, .9), rgba(30, 130, 200, .75));
+  border: 2px solid rgba(220, 250, 255, .8);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .5);
+}
+
+/* 右側攻擊鍵 */
+.acts { position: absolute; right: 12px; bottom: calc(14px + var(--sab)); width: 258px; height: 216px; }
+.acts .b-shoot   { right: 0;    top: 116px; width: 96px; height: 96px; font-size: 26px; border-color: rgba(120, 255, 190, .5); color: #b9ffe4; }
+.acts .b-special { right: 4px;  top: 44px;  width: 88px; height: 62px; border-radius: 31px; font-size: 15px; border-color: rgba(255, 207, 63, .55); color: #ffe08a; }
+.acts .b-melee   { right: 104px; top: 130px; width: 80px; height: 80px; font-size: 24px; }
+.acts .b-jump    { right: 100px; top: 50px;  width: 72px; height: 72px; font-size: 22px; }
+.acts .b-dash    { right: 186px; top: 100px; width: 68px; height: 68px; font-size: 18px; border-color: rgba(255, 214, 90, .5); color: #ffe6a3; }
+
+/* 安全區域探針（HUD 距邊距離） */
+#safe-probe {
+  position: fixed;
+  top: calc(var(--sat));
+  left: calc(env(safe-area-inset-left, 0px));
+  right: calc(env(safe-area-inset-right, 0px));
+  bottom: calc(var(--sab));
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.tbtn.b-special.ready {
+  border-color: var(--accent2);
+  color: #fff5cf;
+  box-shadow: 0 0 22px rgba(255, 207, 63, .75);
+  animation: pulse .7s infinite alternate;
+}
+@keyframes pulse { to { transform: scale(1.06); } }
+
+/* ---- 戰績 ---- */
+.result {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 6, 12, .74);
+  backdrop-filter: blur(6px);
+  padding: 20px;
+}
+.result-card {
+  width: min(440px, 100%);
+  background: linear-gradient(180deg, #101a2e, #080d18);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px 20px 20px;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0,0,0,.6);
+}
+.result-tag { margin: 0; font-size: 11px; letter-spacing: .3em; color: var(--accent); }
+.result-card h2 { margin: 6px 0 16px; font-size: 32px; letter-spacing: .1em; }
+.result-card.lose h2 { color: var(--danger); }
+.result-card.lose .result-tag { color: var(--danger); }
+.result-stats { display: flex; gap: 8px; margin: 0 0 18px; }
+.result-stats > div { flex: 1; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 10px 4px; }
+.result-stats dt { font-size: 11px; color: var(--dim); letter-spacing: .06em; }
+.result-stats dd { margin: 4px 0 0; font-size: 20px; font-weight: 800; color: var(--accent2); }
+.result-actions { display: flex; gap: 10px; }
+.result-actions .btn { flex: 1; padding: 13px 8px; font-size: 15px; }
+
+/* ================= 手機版微調 ================= */
+@media (max-width: 560px) {
+  .unit-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  .card .desc { display: none; }
+  .brand { gap: 10px; }
+  .logo { font-size: 20px; padding: 8px 9px; }
+  .btn { padding: 12px 18px; font-size: 15px; }
+}
+
+@media (max-height: 480px) {
+  /* 橫向手機：縮小虛擬按鈕 */
+  .acts { transform: scale(.84); transform-origin: right bottom; }
+  .joy { transform: scale(.9); }
+}

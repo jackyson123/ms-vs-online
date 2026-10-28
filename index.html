@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#05070d">
+<title>機動戰士對決 ONLINE</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ 選機畫面 ============ -->
+  <section id="screen-select" class="screen active">
+    <header class="brand">
+      <div class="logo">MS<span>VS</span></div>
+      <div class="titles">
+        <h1>機動戰士對決 <em>ONLINE</em></h1>
+        <p class="sub">單人第一人稱對戰 · 選擇你的機體，在大地上擊墜對手</p>
+      </div>
+    </header>
+
+    <div id="unit-grid" class="unit-grid"></div>
+
+    <div class="select-footer">
+      <label class="enemy-pick">
+        <span>對手機體</span>
+        <select id="enemy-select"></select>
+      </label>
+      <button id="btn-start" class="btn primary" disabled>開始對戰</button>
+    </div>
+
+    <p class="hint" id="hint-text"></p>
+  </section>
+
+  <!-- ============ 戰鬥畫面 ============ -->
+  <section id="screen-battle" class="screen">
+    <canvas id="game"></canvas>
+
+    <div class="battle-top">
+      <button id="btn-quit" class="icon-btn" aria-label="離開戰鬥">✕</button>
+      <button id="btn-mute" class="icon-btn" aria-label="音效開關">🔊</button>
+    </div>
+
+    <div id="touch-ui" class="touch-ui hidden">
+      <div id="joy" class="joy"><i></i></div>
+      <div class="acts">
+        <button class="tbtn b-special" data-key="special">必殺</button>
+        <button class="tbtn b-jump" data-key="jump">跳</button>
+        <button class="tbtn b-dash" data-key="dash">衝</button>
+        <button class="tbtn b-melee" data-key="melee">斬</button>
+        <button class="tbtn b-shoot" data-key="shoot">射</button>
+      </div>
+    </div>
+
+    <div id="safe-probe" aria-hidden="true"></div>
+
+    <div id="result" class="result hidden">
+      <div class="result-card">
+        <p id="result-tag" class="result-tag">MISSION COMPLETE</p>
+        <h2 id="result-title">任務完成</h2>
+        <dl class="result-stats">
+          <div><dt>剩餘耐久</dt><dd id="stat-hp">0%</dd></div>
+          <div><dt>造成傷害</dt><dd id="stat-dmg">0</dd></div>
+          <div><dt>擊中次數</dt><dd id="stat-hit">0</dd></div>
+        </dl>
+        <div class="result-actions">
+          <button id="btn-rematch" class="btn primary">再戰一局</button>
+          <button id="btn-to-select" class="btn ghost">更換機體</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
